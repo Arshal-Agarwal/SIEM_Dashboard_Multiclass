@@ -74,56 +74,66 @@ export default function SystemHealth() {
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
                 theme="dark"
             />
             <Navbar />
 
-            <main className="p-6 md:p-8 max-w-7xl mx-auto">
-                <h1 className="text-4xl font-extrabold mb-8 text-center text-[#00ff9d] tracking-wide drop-shadow-md">
+            <main className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 sm:mb-6 lg:mb-8 text-center text-[#00ff9d] tracking-wide drop-shadow-md">
                     System Health Monitor
                 </h1>
 
                 {loading ? (
-                    <p className="text-gray-400 text-center text-lg">Loading system data...</p>
+                    <p className="text-gray-400 text-center text-base sm:text-lg">Loading system data...</p>
                 ) : !healthData ? (
-                    <p className="text-red-500 text-center text-lg font-semibold">Failed to load health metrics.</p>
+                    <p className="text-red-500 text-center text-base sm:text-lg font-semibold">Failed to load health metrics.</p>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-
-                        <section className="p-6 border border-gray-700 rounded-lg bg-[#2c3e50] shadow-lg flex flex-col">
-                            <h2 className="text-2xl mb-5 text-[#00ff9d] font-semibold drop-shadow-sm">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                        {/* CPU Usage Section */}
+                        <section className="p-3 sm:p-4 lg:p-6 border border-gray-700 rounded-lg bg-[#2c3e50] shadow-lg flex flex-col">
+                            <h2 className="text-xl sm:text-2xl mb-3 sm:mb-4 text-[#00ff9d] font-semibold drop-shadow-sm">
                                 CPU Usage Over Time
                             </h2>
-                            <Line data={cpuData} options={{
-                                responsive: true,
-                                plugins: {
-                                    legend: { labels: { color: '#00ff9d' } },
-                                    tooltip: { mode: 'index', intersect: false },
-                                },
-                                scales: {
-                                    x: { ticks: { color: '#a0f0b0' }, grid: { color: '#2c3e50' } },
-                                    y: {
-                                        min: 0,
-                                        max: 100,
-                                        ticks: { color: '#a0f0b0', stepSize: 20 },
-                                        grid: { color: '#2c3e50' },
+                            <div className="h-[200px] sm:h-[250px] lg:h-[300px]">
+                                <Line data={cpuData} options={{
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: { 
+                                            labels: { 
+                                                color: '#00ff9d',
+                                                font: { size: window.innerWidth < 640 ? 10 : 12 }
+                                            } 
+                                        },
+                                        tooltip: { mode: 'index', intersect: false },
                                     },
-                                },
-                            }} />
+                                    scales: {
+                                        x: { 
+                                            ticks: { 
+                                                color: '#a0f0b0',
+                                                font: { size: window.innerWidth < 640 ? 10 : 12 }
+                                            }
+                                        },
+                                        y: {
+                                            min: 0,
+                                            max: 100,
+                                            ticks: { 
+                                                color: '#a0f0b0',
+                                                stepSize: 20,
+                                                font: { size: window.innerWidth < 640 ? 10 : 12 }
+                                            }
+                                        },
+                                    },
+                                }} />
+                            </div>
                         </section>
 
-                        <section className="p-6 border border-gray-700 rounded-lg bg-[#2c3e50] shadow-lg flex flex-col items-center">
-                            <h2 className="text-2xl mb-5 text-[#00ff9d] font-semibold drop-shadow-sm">
+                        {/* Memory Usage Section */}
+                        <section className="p-3 sm:p-4 lg:p-6 border border-gray-700 rounded-lg bg-[#2c3e50] shadow-lg flex flex-col items-center">
+                            <h2 className="text-xl sm:text-2xl mb-3 sm:mb-4 text-[#00ff9d] font-semibold drop-shadow-sm">
                                 Memory Usage
                             </h2>
-                            <div style={{ width: '200px', height: '200px' }}>
+                            <div className="w-[180px] h-[180px] sm:w-[200px] sm:h-[200px]">
                                 <Pie
                                     data={memoryData}
                                     options={{
@@ -132,33 +142,34 @@ export default function SystemHealth() {
                                         plugins: {
                                             legend: {
                                                 position: 'bottom',
-                                                labels: { color: '#00ff9d', font: { size: 14 } },
-                                            },
-                                            tooltip: { enabled: true }
+                                                labels: { 
+                                                    color: '#00ff9d',
+                                                    font: { size: window.innerWidth < 640 ? 12 : 14 }
+                                                },
+                                            }
                                         }
                                     }}
                                 />
                             </div>
-                            <p className="mt-6 text-gray-400 text-center text-sm md:text-base leading-relaxed">
+                            <p className="mt-4 sm:mt-6 text-gray-400 text-center text-xs sm:text-sm lg:text-base leading-relaxed">
                                 <strong>Total:</strong> {(healthData.memory.total / (1024 * 1024)).toFixed(2)} MB<br />
                                 <strong>Used:</strong> {(healthData.memory.used / (1024 * 1024)).toFixed(2)} MB<br />
                                 <strong>Free:</strong> {(healthData.memory.free / (1024 * 1024)).toFixed(2)} MB
                             </p>
                         </section>
 
-
-                        <section className="p-6 border border-gray-700 rounded-lg bg-[#2c3e50] shadow-lg md:col-span-2">
-                            <h2 className="text-2xl mb-5 text-[#00ff9d] font-semibold drop-shadow-sm">
+                        {/* Server Info Section */}
+                        <section className="p-3 sm:p-4 lg:p-6 border border-gray-700 rounded-lg bg-[#2c3e50] shadow-lg lg:col-span-2">
+                            <h2 className="text-xl sm:text-2xl mb-3 sm:mb-4 text-[#00ff9d] font-semibold drop-shadow-sm">
                                 Server Info
                             </h2>
-                            <ul className="space-y-3 text-gray-300 text-lg md:text-xl">
-                                <li><span className="font-medium text-[#00ff9d]">Uptime:</span> {healthData.uptime}13 seconds</li>
+                            <ul className="space-y-2 sm:space-y-3 text-gray-300 text-base sm:text-lg lg:text-xl">
+                                <li><span className="font-medium text-[#00ff9d]">Uptime:</span> {healthData.uptime}</li>
                                 <li><span className="font-medium text-[#00ff9d]">CPU Cores:</span> {healthData.cores || healthData.cpuCores || 1}</li>
                                 <li><span className="font-medium text-[#00ff9d]">Platform:</span> Linux</li>
                                 <li><span className="font-medium text-[#00ff9d]">Disk Usage:</span> {healthData.disk.used} / {healthData.disk.total} GB</li>
                             </ul>
                         </section>
-
                     </div>
                 )}
             </main>

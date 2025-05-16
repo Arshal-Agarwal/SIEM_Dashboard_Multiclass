@@ -131,15 +131,15 @@ export default function Home() {
       <ToastContainer />
       <Navbar />
 
-      <main className="p-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <main className="p-4 sm:p-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Logs Section */}
-          <section className="p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg col-span-1 md:col-span-2 max-h-[400px] overflow-auto">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl text-[#00ff9d]">Recent Logs</h2>
+          <section className="p-3 sm:p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg col-span-1 lg:col-span-2 max-h-[350px] sm:max-h-[400px] overflow-auto">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h2 className="text-lg sm:text-xl text-[#00ff9d]">Recent Logs</h2>
               <button
                 onClick={scrollToGraph}
-                className="px-6 py-2 bg-[#00ff9d] text-[#1a1f2c] font-semibold rounded hover:bg-[#00cc7d] transition"
+                className="px-4 sm:px-6 py-1.5 sm:py-2 bg-[#00ff9d] text-[#1a1f2c] font-semibold rounded hover:bg-[#00cc7d] transition text-sm sm:text-base"
               >
                 View Graph
               </button>
@@ -177,19 +177,65 @@ export default function Home() {
           </section>
 
           {/* Pie Chart Section */}
-          <section className="p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg flex flex-col items-center justify-center h-[400px]">
-            <h2 className="text-xl mt-2 mb-2 text-[#00ff9d]">Threat Summary</h2>
-            <Pie data={pieData} />
-            <p className="mt-4 text-gray-400">
+          <section className="p-3 sm:p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg flex flex-col items-center justify-center h-[300px] sm:h-[400px]">
+            <h2 className="text-lg sm:text-xl mt-2 mb-2 text-[#00ff9d]">Threat Summary</h2>
+            <div className="w-full max-w-[250px] sm:max-w-none">
+              <Pie data={pieData} options={{
+                maintainAspectRatio: true,
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'bottom',
+                    labels: {
+                      font: {
+                        size: window.innerWidth < 640 ? 10 : 12
+                      }
+                    }
+                  }
+                }
+              }} />
+            </div>
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-400">
               Total Logs: {logs.length} | Threats: {threatCount}
             </p>
           </section>
         </div>
 
         {/* Line Chart Section */}
-        <section ref={graphRef} className="mt-8 p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg max-w-4xl mx-auto">
-          <h2 className="text-xl mb-4 text-[#00ff9d]">Logs & Threats Over Time</h2>
-          <Line data={lineData} />
+        <section ref={graphRef} className="mt-6 sm:mt-8 p-3 sm:p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg max-w-4xl mx-auto">
+          <h2 className="text-lg sm:text-xl mb-3 sm:mb-4 text-[#00ff9d]">Logs & Threats Over Time</h2>
+          <div className="w-full">
+            <Line data={lineData} options={{
+              maintainAspectRatio: true,
+              responsive: true,
+              scales: {
+                x: {
+                  ticks: {
+                    font: {
+                      size: window.innerWidth < 640 ? 10 : 12
+                    }
+                  }
+                },
+                y: {
+                  ticks: {
+                    font: {
+                      size: window.innerWidth < 640 ? 10 : 12
+                    }
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: {
+                    font: {
+                      size: window.innerWidth < 640 ? 10 : 12
+                    }
+                  }
+                }
+              }
+            }} />
+          </div>
         </section>
       </main>
     </div>

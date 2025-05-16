@@ -1,4 +1,4 @@
-// File: C:\Users\ajaga\OneDrive\Desktop\SIEM_Dashboard\frontend\app\pages\logs\page.js
+// File: C:\Users\ajaga\OneDrive\Desktop\SIEM_Dashboard_Multiclass\frontend\app\pages\logs\page.js
 import * as entry from '../../../../../app/pages/logs/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -100,64 +100,78 @@ export default function Home() {
     <div className="min-h-screen bg-[#1a1f2c]">
       <ToastContainer />
       <Navbar />
-      <main className="p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <main className="p-4 sm:p-6 lg:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Recent Logs */}
-          <div className="p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg">
-            <h2 className="text-xl mb-4 text-[#00ff9d]">Recent Logs</h2>
+          <div className="p-3 sm:p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-lg sm:text-xl text-[#00ff9d]">Recent Logs</h2>
+            </div>
             {loading ? (
               <p className="text-gray-400">Loading...</p>
             ) : logs.length > 0 ? (
-              <ul className="space-y-2 max-h-[350px] overflow-auto">
+              <ul className="space-y-2 max-h-[300px] sm:max-h-[350px] overflow-auto">
                 {logs.slice(0, 5).map((log, index) => (
                   <li key={index} className="p-2 bg-[#1a1f2c] rounded border border-gray-700">
-                    <p className="text-sm text-gray-300">{log.log}</p>
-                    <p className="text-xs italic text-gray-400">
-                      Classification: {log.classification || "Normal"}
-                    </p>
-                    <span className="text-xs text-gray-500">
-                      {formatTimestamp(log.timestamp)}
-                    </span>
-                    <button className="ml-82 font-mono text-xs text-blue-500 hover:underline">Solution</button>
+                    <p className="text-xs sm:text-sm text-gray-300">{log.log}</p>
+                    <div className="flex justify-between items-center mt-1">
+                      <div>
+                        <p className="text-xs italic text-gray-400">
+                          Classification: {log.classification || "Normal"}
+                        </p>
+                        <span className="text-[10px] sm:text-xs text-gray-500">
+                          {formatTimestamp(log.timestamp)}
+                        </span>
+                      </div>
+                      <button className="text-[10px] sm:text-xs text-blue-500 hover:underline">
+                        Solution
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
-
             ) : (
               <p className="text-gray-400">No recent logs to display</p>
             )}
           </div>
 
           {/* Pie Chart for Threat Types */}
-          {/* Pie Chart for Threat Types */}
-          <div
-            className="p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg flex flex-col items-center justify-center max-h-[350px]"
-            style={{ minHeight: '500px' }} // you can adjust as needed
-          >
-            <h2 className="text-xl mb-4 text-[#00ff9d]">Threat Types Distribution</h2>
+          <div className="p-3 sm:p-4 border border-gray-700 rounded bg-[#2c3e50] shadow-lg">
+            <h2 className="text-lg sm:text-xl mb-3 text-[#00ff9d]">Threat Types Distribution</h2>
             {loading ? (
               <p className="text-gray-400">Loading...</p>
             ) : labels.length > 0 ? (
-              <div className="w-full h-full flex justify-center items-center">
+              <div className="w-full flex justify-center items-center" style={{ height: '280px' }}>
                 <Pie
                   data={pieData}
                   options={{
                     maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        position: 'right',
+                        labels: {
+                          boxWidth: 12,
+                          padding: 10,
+                          font: {
+                            size: window.innerWidth < 768 ? 10 : 12
+                          }
+                        }
+                      }
+                    }
                   }}
-                  style={{ height: '100%', width: '100%', maxWidth: '350px' }}
                 />
               </div>
             ) : (
               <p className="text-gray-400">No threats detected</p>
             )}
           </div>
-
         </div>
 
-        <div className="flex justify-between items-center mt-6">
+        <div className="flex justify-between items-center mt-4 sm:mt-6">
           <button
             onClick={clearHistory}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors duration-200 flex items-center gap-2 text-sm"
+            className="px-3 sm:px-4 py-1.5 sm:py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors duration-200 flex items-center gap-2 text-xs sm:text-sm"
           >
             Clear History
           </button>

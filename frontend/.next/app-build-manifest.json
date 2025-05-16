@@ -16,12 +16,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/pages/logs/page.js"
-    ],
-    "/pages/threats/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/pages/threats/page.css",
-      "static/chunks/app/pages/threats/page.js"
     ]
   }
 }
